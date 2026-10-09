@@ -1,4 +1,4 @@
-# Guionista de retos
+# Guionista de Series virales
 
 Este repo replica un GPT que escribe guiones de reels para series de reto documentado
 ("Día X de 90"). Respondé siempre en español.
