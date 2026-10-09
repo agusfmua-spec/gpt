@@ -102,6 +102,8 @@ main { min-height: 0; }
 .composer textarea { flex: 1; min-width: 0; resize: none; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 12px; max-height: 180px; line-height: 1.4; }
 .banner { font-size: .88rem; padding: 8px 12px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); }
 .hint { font-size: .8rem; color: var(--muted); }
+.banner-acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.banner-acts a.btn { text-decoration: none; }
 
 /* Formularios */
 .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 14px; }
@@ -220,6 +222,7 @@ main { min-height: 0; }
   ];
 
   const ALUMNA = true; // true = versión para compartir: solo chat y guiones, sin editar la estructura
+  const PAGE_URL = ALUMNA ? "https://claude.ai/artifact/VuCP15MxJMpbBAXywWuRJS" : "https://claude.ai/artifact/CnfdpbAGLDTyKjBnzJ7F2g";
   const LS_KEY = ALUMNA ? "guionista-retos-alumna-v1" : "guionista-retos-v2";
   const WPS = 2.5; // palabras por segundo en español hablado
 
@@ -491,7 +494,12 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     if (!send) return;
     if (streaming) { send.textContent = "Detener"; send.disabled = false; send.classList.remove("primary"); }
     else { send.textContent = "Enviar"; send.classList.add("primary"); send.disabled = sampleState !== "ok"; }
-    if (sampleState === "none") { banner.hidden = false; banner.textContent = "Para chatear, abre esta página dentro de Claude (claude.ai o la app). Tus retos, perfil y guiones se pueden ver igual."; }
+    if (sampleState === "none") {
+      banner.hidden = false;
+      banner.innerHTML = `<strong>El chat no funciona en esta app.</strong> Algunas apps de Claude (por ejemplo, la de Android) todavía no permiten chatear dentro de esta página. Ábrela en el navegador del celular (Chrome o Safari) o en la computadora, con tu cuenta de Claude:
+        <div class="banner-acts"><a class="btn primary" href="${PAGE_URL}" target="_blank" rel="noopener">Abrir en el navegador</a><button class="btn" type="button" id="copy-link">Copiar link</button></div>
+        <div class="hint" style="margin-top:6px">${esc(PAGE_URL)}</div>`;
+    }
     else if (sampleState === "denied") { banner.hidden = false; banner.textContent = "Esta página no tiene permiso para usar Claude. Ábrelo desde el menú Permisos del artifact y vuelve a cargar."; }
     else if (sampleState === "pending") { banner.hidden = false; banner.textContent = "Conectando con Claude…"; }
     else banner.hidden = true;
@@ -743,6 +751,9 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     else if (t.id === "delete-reto") {
       if (!confirmClick(t, "¿Seguro? Se borra todo el reto")) return;
       removeReto(current); tab = "chat"; render();
+    }
+    else if (t.id === "copy-link") {
+      navigator.clipboard.writeText(PAGE_URL).then(() => flash("Link copiado. Pégalo en Chrome o Safari.")).catch(() => flash("Mantén presionado el link de abajo para copiarlo."));
     }
     else if (t.id === "copy-all") {
       const all = current.guiones.slice().sort((a, b) => a.dia - b.dia).map(g => `Día ${g.dia}\n${g.texto}`).join("\n\n");
