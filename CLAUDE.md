@@ -12,7 +12,8 @@ Este repo replica un GPT que escribe guiones de reels para series de reto docume
   `artifact/guionista-de-retos.html`, publicada en https://claude.ai/artifact/CnfdpbAGLDTyKjBnzJ7F2g
 - Versión para alumnas (solo chat y "Mis guiones", estructura fija):
   `artifact/guionista-de-retos-alumnas.html`, publicada en https://claude.ai/artifact/VuCP15MxJMpbBAXywWuRJS.
-  Se genera desde `guionista-de-retos.html` cambiando `const ALUMNA = false` a `true`; si cambia la estructura
+  Se genera desde `guionista-de-retos.html` cambiando `const ALUMNA = false` a `true` y quitando "Premium"
+  del `<title>` y del `<h1>` (la versión de la dueña se llama "Guionista de Series virales Premium"); si cambia la estructura
   por defecto (`DEFAULT_ESTRUCTURA`), regenerarla y volver a publicar las dos.
   La versión de alumnas pide el código de acceso (se compara su SHA-256 en `ACCESS_HASH`).
   Las invitadas no pueden chatear en el link compartido: cada alumna tiene que hacer "Hacer una copia" del

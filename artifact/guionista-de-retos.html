@@ -1,4 +1,4 @@
-<title>Guionista de Series virales</title>
+<title>Guionista de Series virales Premium</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
@@ -53,6 +53,7 @@ header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px
 .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; min-width: 0; }
 .rec { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); flex: none; }
 .brand h1 { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.01em; margin: 0; white-space: nowrap; }
+.premium { font-family: var(--font-mono); font-weight: 500; font-size: .62em; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 2px 6px; vertical-align: middle; }
 .reto-pick { display: flex; gap: 8px; align-items: center; min-width: 0; flex-wrap: wrap; }
 .reto-pick select { max-width: 260px; min-width: 0; padding: 7px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
 
@@ -183,7 +184,7 @@ main { min-height: 0; }
 </div>
 <div class="app">
   <header class="top">
-    <div class="brand"><span class="rec" aria-hidden="true"></span><h1>Guionista de Series virales</h1></div>
+    <div class="brand"><span class="rec" aria-hidden="true"></span><h1>Guionista de Series virales <span class="premium">Premium</span></h1></div>
     <div class="reto-pick">
       <label for="reto-select" class="hint">Reto</label>
       <select id="reto-select"></select>
