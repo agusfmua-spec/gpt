@@ -104,6 +104,7 @@ main { min-height: 0; }
 .hint { font-size: .8rem; color: var(--muted); }
 .banner-acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .banner-acts a.btn { text-decoration: none; }
+.steps { margin: 8px 0 6px; padding-left: 1.3em; display: flex; flex-direction: column; gap: 4px; }
 
 /* Formularios */
 .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 14px; }
@@ -258,6 +259,7 @@ main { min-height: 0; }
   let armed = null; // botón en confirmación
   let diag = "";
   let permsNs = null;
+  let esDuena = null; // null = no se sabe
 
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -314,7 +316,7 @@ main { min-height: 0; }
           const perms = await window.claude.use("permissions");
           if (perms) { permsNs = perms; const st = await perms.state(); diag += " · permisos: " + (Object.entries(st).map(([k, v]) => k + "=" + v).join(", ") || "ninguno"); }
           const user = await window.claude.use("user");
-          if (user) diag += " · " + ((await user.isOwner()) ? "dueña" : "invitada");
+          if (user) { esDuena = !!(await user.isOwner()); diag += " · " + (esDuena ? "dueña" : "invitada"); }
         } catch {}
       }
       renderComposerState();
@@ -529,10 +531,19 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     else { send.textContent = "Enviar"; send.classList.add("primary"); send.disabled = sampleState !== "ok"; }
     if (sampleState === "none") {
       banner.hidden = false;
-      banner.innerHTML = `<strong>El chat no funciona en esta app.</strong> Algunas apps de Claude (por ejemplo, la de Android) todavía no permiten chatear dentro de esta página. Ábrela en el navegador del celular (Chrome o Safari) o en la computadora, con tu cuenta de Claude:
-        <div class="banner-acts"><a class="btn primary" href="${PAGE_URL}" target="_blank" rel="noopener">Abrir en el navegador</a><button class="btn" type="button" id="copy-link">Copiar link</button>${permsNs ? `<button class="btn" type="button" id="open-perms">Revisar permisos</button>` : ""}</div>
-        <div class="hint" style="margin-top:6px">${esc(PAGE_URL)}</div>
-        <div class="hint">Detalle técnico: ${esc(diag || "-")} · ${esc(/Android/i.test(navigator.userAgent) ? "Android" : /iPhone|iPad/i.test(navigator.userAgent) ? "iOS" : "escritorio")}${window.top === window ? " · fuera del visor" : " · en visor"}</div>`;
+      const tech = `<div class="hint" style="margin-top:6px">Detalle técnico: ${esc(diag || "-")}</div>`;
+      if (esDuena === false) {
+        banner.innerHTML = `<strong>Para chatear, crea tu propia copia (es gratis y se hace una sola vez):</strong>
+          <ol class="steps">
+            <li>Arriba, toca el nombre <strong>Guionista de Series virales</strong> (o el menú ⋮).</li>
+            <li>Elige <strong>Hacer una copia</strong>.</li>
+            <li>Se abre tu copia: escribe el código, y ya puedes chatear. Guárdala, porque esa es la tuya.</li>
+          </ol>
+          <div class="hint">Esto pasa porque Claude solo deja chatear en las páginas que son tuyas.</div>${tech}`;
+      } else {
+        banner.innerHTML = `<strong>El chat no está disponible en este momento.</strong> Abre la página con tu cuenta de Claude, desde la app o desde claude.ai, y vuelve a cargarla.
+          ${permsNs ? `<div class="banner-acts"><button class="btn" type="button" id="open-perms">Revisar permisos</button></div>` : ""}${tech}`;
+      }
     }
     else if (sampleState === "denied") { banner.hidden = false; banner.textContent = "Esta página no tiene permiso para usar Claude. Ábrelo desde el menú Permisos del artifact y vuelve a cargar."; }
     else if (sampleState === "pending") { banner.hidden = false; banner.textContent = "Conectando con Claude…"; }
