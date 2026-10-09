@@ -211,13 +211,13 @@ main { min-height: 0; }
     hook: "La primera frase, en los primeros 3 segundos. Día 1: el reto en una frase con meta + plazo + punto de partida (\"Tengo 90 días para…\"). Del Día 2 en adelante: \"Día X de N\" + el dato, la tensión o la pregunta más fuerte del día. Tiene que generar curiosidad o identificación inmediata.",
     cta: "Cierra con intriga (\"¿Lo lograré?\", qué pasará mañana) y la acción que eligió: seguir para acompañar el reto, comentar una palabra, debatir o ir al link.",
     ideas: [
-      { id: "narracion", nombre: "Narración del día", que: "Lo que hicimos en el día (compartimos el paso a paso de todo).", funcion: "Hace que la historia sea tangible.", ejemplo: "Me he despertado pronto, me he aseado, he recogido la casa y me he ido al gimnasio. Después preparé un batido y me fui al trabajo…", modo: "auto" },
-      { id: "avance", nombre: "Avance", que: "Los resultados o logros que vamos teniendo en el proceso.", funcion: "Dar prueba social.", ejemplo: "En 4 días, ese video tenía +50.000 visualizaciones, +1.000 comentarios y casi 2.000 seguidores nuevos.", modo: "auto" },
-      { id: "dificultad", nombre: "Dificultad / fail", que: "Los errores, las caídas, lo que no funcionó o salió mal.", funcion: "Humanizar la historia y el proceso, y conectar con la audiencia.", ejemplo: "Me equivoqué. Subí 3 videos que sí daban valor, pero no tenían ningún propósito.", modo: "auto" },
-      { id: "leccion", nombre: "Lección / reflexión", que: "Nuestros aprendizajes o revelaciones.", funcion: "Aportar valor.", ejemplo: "Mostrarte cuando dudas, no solo cuando ganas… eso también es contenido que vale la pena compartir.", modo: "auto" },
-      { id: "emocion", nombre: "Emoción personal", que: "Nuestras emociones y sentimientos.", funcion: "Humanizar nuestro mensaje y mostrarnos auténticos.", ejemplo: "Obvio me dio tristeza, sentí ese bajón porque era mi primer video viral y ¡puff!, desapareció.", modo: "auto" },
-      { id: "contexto", nombre: "Contexto del reto", que: "La meta, el plazo, el punto de partida y el método que se pone a prueba. Clave el Día 1; después, en una frase para quien llega nuevo.", funcion: "Que cualquiera entienda la serie aunque sea su primer video.", ejemplo: "Tengo apenas 80 seguidores, soy mamá y mi tiempo es limitado. Y voy a poner a prueba mi propio método.", modo: "auto" },
-      { id: "polemica", nombre: "Opinión polémica", que: "Una idea que desafía una creencia común del nicho, sin atacar a personas.", funcion: "Generar debate y comentarios.", ejemplo: "No necesitas publicar tres veces por día para vender.", modo: "off" }
+      { id: "narracion", nombre: "Narración del día", que: "Lo que hicimos en el día (compartimos el paso a paso de todo).", funcion: "Hace que la historia sea tangible.", ejemplo: "Me he despertado pronto, me he aseado, he recogido la casa y me he ido al gimnasio. Después preparé un batido y me fui al trabajo…", pregunta: "¿Qué hiciste hoy, paso a paso, para avanzar con el reto?", modo: "auto" },
+      { id: "avance", nombre: "Avance", que: "Los resultados o logros que vamos teniendo en el proceso.", funcion: "Dar prueba social.", ejemplo: "En 4 días, ese video tenía +50.000 visualizaciones, +1.000 comentarios y casi 2.000 seguidores nuevos.", pregunta: "¿Qué números o logros tienes hoy? (seguidores, visualizaciones, mensajes, leads, ventas)", modo: "auto" },
+      { id: "dificultad", nombre: "Dificultad / fail", que: "Los errores, las caídas, lo que no funcionó o salió mal.", funcion: "Humanizar la historia y el proceso, y conectar con la audiencia.", ejemplo: "Me equivoqué. Subí 3 videos que sí daban valor, pero no tenían ningún propósito.", pregunta: "¿Qué no salió como esperabas o qué te costó hoy?", modo: "auto" },
+      { id: "leccion", nombre: "Lección / reflexión", que: "Nuestros aprendizajes o revelaciones.", funcion: "Aportar valor.", ejemplo: "Mostrarte cuando dudas, no solo cuando ganas… eso también es contenido que vale la pena compartir.", pregunta: "¿Qué aprendiste o descubriste hoy?", modo: "auto" },
+      { id: "emocion", nombre: "Emoción personal", que: "Nuestras emociones y sentimientos.", funcion: "Humanizar nuestro mensaje y mostrarnos auténticos.", ejemplo: "Obvio me dio tristeza, sentí ese bajón porque era mi primer video viral y ¡puff!, desapareció.", pregunta: "¿Cómo te sentiste hoy con el reto?", modo: "auto" },
+      { id: "contexto", nombre: "Contexto del reto", que: "La meta, el plazo, el punto de partida y el método que se pone a prueba. Clave el Día 1; después, en una frase para quien llega nuevo.", funcion: "Que cualquiera entienda la serie aunque sea su primer video.", ejemplo: "Tengo apenas 80 seguidores, soy mamá y mi tiempo es limitado. Y voy a poner a prueba mi propio método.", pregunta: "¿Cambió algo de tu meta, tu plan o tu punto de partida?", modo: "auto" },
+      { id: "polemica", nombre: "Opinión polémica", que: "Una idea que desafía una creencia común del nicho, sin atacar a personas.", funcion: "Generar debate y comentarios.", ejemplo: "No necesitas publicar tres veces por día para vender.", pregunta: "¿Qué creencia de tu nicho te gustaría desafiar?", modo: "off" }
     ]
   };
 
@@ -278,6 +278,15 @@ main { min-height: 0; }
       guiones: []
     };
   }
+  function normalize(r) {
+    if (!r.estructura || !Array.isArray(r.estructura.ideas)) r.estructura = clone(DEFAULT_ESTRUCTURA);
+    for (const b of r.estructura.ideas) if (b.pregunta == null) b.pregunta = (DEFAULT_ESTRUCTURA.ideas.find(d => d.id === b.id) || {}).pregunta || "";
+    delete r.bloques;
+    r.guiones ||= [];
+    r.mensajes ||= [{ role: "assistant", content: GREETING }];
+    r.perfil = Object.assign(newReto().perfil, r.perfil || {});
+    return r;
+  }
   const isPristine = r => r.mensajes.length <= 1 && !r.guiones.length && !r.perfil.nicho && !r.perfil.meta;
   const nextDay = r => r.guiones.length ? Math.max(...r.guiones.map(g => g.dia)) + 1 : 1;
 
@@ -330,7 +339,7 @@ main { min-height: 0; }
       if (canWrite === false) return; // invitadas de solo lectura: se guarda en el navegador
       store = { mode: "db", db, uid: id };
       const snap = await db.collection("data/users/" + id).get();
-      const remote = snap.docs.map(d => d.data()).filter(x => x && x.id);
+      const remote = snap.docs.map(d => d.data()).filter(x => x && x.id).map(x => normalize(clone(x)));
       const byId = new Map(remote.map(r => [r.id, r]));
       const toUpload = [];
       for (const l of retos) {
@@ -350,12 +359,22 @@ main { min-height: 0; }
   }
 
   // ---------- Prompt ----------
+  function fase(dia, total) {
+    if (dia === 1) return "Arranque. Presentación del reto: contexto, punto de partida, por qué lo hace y qué quiere demostrar.";
+    if (total && dia === total) return "Último día. Pregunta por el resultado final frente a la meta, cómo se siente, qué aprendió y qué sigue. Es el cierre de la serie.";
+    if (total && total - dia <= 7) return `Recta final: faltan ${total - dia} días. Pregunta cuánto le falta para la meta, qué va a hacer distinto y cómo maneja la presión. Usa la urgencia.`;
+    if (total && dia === Math.round(total / 2)) return "Mitad del reto. Pregunta por un balance honesto: ¿va en camino?, qué cambiaría, qué número la preocupa o la ilusiona.";
+    if (dia % 7 === 0) return `Cierre de la semana ${dia / 7}. Pregunta por un resumen: qué funcionó, qué no y cómo cambiaron los números en la semana.`;
+    if (dia <= 3) return "Primeros días. Pregunta por las primeras reacciones del público, primeros pasos concretos y nervios o ilusión.";
+    return "Constancia. Busca historias nuevas: algo inesperado del día, una conversación, una prueba o un cambio de plan.";
+  }
+
   function buildRules(r) {
     const p = r.perfil;
     const seg = Number(p.segundos) || 60;
     const pal = Math.round(seg * WPS);
     const est = ALUMNA ? DEFAULT_ESTRUCTURA : r.estructura;
-    const ideaTxt = b => `- ${b.nombre}${b.modo === "siempre" ? " [OBLIGATORIA: va en todos los guiones]" : ""}\n  Qué contamos: ${b.que}\n  Función: ${b.funcion}${b.ejemplo ? "\n  Ejemplo: " + b.ejemplo : ""}`;
+    const ideaTxt = b => `- ${b.nombre}${b.modo === "siempre" ? " [OBLIGATORIA: va en todos los guiones]" : ""}\n  Qué contamos: ${b.que}\n  Función: ${b.funcion}${b.ejemplo ? "\n  Ejemplo: " + b.ejemplo : ""}${b.pregunta ? "\n  Pregunta guía: " + b.pregunta : ""}`;
     const menu = est.ideas.filter(b => b.modo !== "off");
     const fuera = est.ideas.filter(b => b.modo === "off");
     const dia = nextDay(r);
@@ -363,14 +382,21 @@ main { min-height: 0; }
     const ultimos = r.guiones.slice().sort((a, b) => a.dia - b.dia);
     const memoria = ultimos.length ? ultimos.map((g, i) => {
       const reciente = i >= ultimos.length - 5;
-      return `Día ${g.dia}${g.fecha ? " (" + g.fecha + ")" : ""}:\n` + (reciente ? g.texto : g.texto.split("\n")[0] + " […]");
+      return `Día ${g.dia}${g.fecha ? " (" + g.fecha + ")" : ""}${g.partes ? " — Partes: " + g.partes : ""}:\n` + (reciente ? g.texto : g.texto.split("\n")[0] + " […]");
     }).join("\n\n") : "(Todavía no hay guiones aprobados.)";
 
     return `Eres "Guionista de Series virales": una guionista experta en contenido corto (Reels, TikTok, Shorts) para series de reto documentado, en CUALQUIER nicho. Una persona se pone una meta concreta con plazo y publica un episodio por día mostrando su progreso real. Tu trabajo es que cada episodio enganche desde el primer segundo, muestre avance real y haga que la gente quiera ver el siguiente. Respondes siempre en español.
 
 FLUJO
 1. Onboarding: si faltan datos clave del perfil (nicho, meta, duración, tono, obstáculo), pídelos en una sola respuesta, numerados, sin escribir guion todavía. Nunca repreguntes lo que ya está en el perfil o en la conversación.
-2. Check-in antes de cada guion: celebra en 1-2 líneas reformulando su reto con sus palabras y cifras, y pregunta numerado: (1) qué hizo hoy para avanzar; (2) qué cifras puede compartir (el Día 1, las de partida); (3) qué quiere que haga la gente al terminar el video. Si ya trae esa información en su mensaje o el perfil la tiene, escribe el guion directamente.
+2. Check-in antes de cada guion: celebra en 1-2 líneas reformulando su reto con sus palabras y cifras, y hazle de 2 a 4 preguntas cortas, numeradas, PENSADAS PARA ESTE DÍA. No repitas siempre las mismas. Para elegirlas:
+   - Usa las "Pregunta guía" del menú de ideas, adaptadas a su nicho y a lo que viene contando (con sus nombres, cifras y planes).
+   - Prioriza las ideas que no aparecen en las "Partes" de los últimos 2-3 guiones aprobados, para que la serie tenga variedad.
+   - Pregunta por números (Avance) al menos cada 2 o 3 días, y siempre que la fase lo pida.
+   - Si el guion anterior dejó algo pendiente (una promesa, un "mañana te cuento", una prueba), pregunta cómo salió.
+   - Ajusta las preguntas a la FASE DEL RETO indicada abajo.
+   - El Día 1 pregunta también las cifras de partida y qué quiere que haga la gente al terminar el video. Después pregunta por el CTA solo si quiere cambiarlo.
+   Si ya trae en su mensaje material suficiente para un buen guion, escríbelo directamente; si falta algo clave, haz solo esa pregunta.
 3. Guion: sigue el FORMATO y la ESTRUCTURA de abajo.
 4. Ajustes: cuando pida un cambio, reescribe el guion completo aplicándolo en todas las frases afectadas (gancho, pregunta final, etc.), mantén lo demás y no expliques de más.
 5. Cierre: después del guion, en una línea, pregunta si quiere el guion del día siguiente o una versión distinta.
@@ -403,7 +429,9 @@ PERFIL DEL RETO (memoria)
 ${perfilTxt}
 ${p.notas ? "Instrucciones extra de la usuaria: " + p.notas : ""}
 
-PRÓXIMO EPISODIO: Día ${dia}${p.duracion ? " de " + p.duracion : ""}. Fecha de hoy: ${new Date().toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" })}.
+PRÓXIMO EPISODIO: Día ${dia}${p.duracion ? " de " + p.duracion : ""}.
+FASE DEL RETO: ${fase(dia, parseInt(p.duracion, 10))} (Si la usuaria dice que va por otro número de día, usa el que ella dice y ajusta la fase.)
+ Fecha de hoy: ${new Date().toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" })}.
 
 GUIONES YA APROBADOS (mantén la continuidad: número de día, cifras, frases que funcionaron, promesas hechas al público; no repitas ganchos)
 ${memoria}
@@ -469,15 +497,18 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     let acts = "";
     if (opts.live) acts = "";
     else if (opts.saved) acts = `<div class="acts"><button type="button" data-copy="${esc(t)}">Copiar</button><button type="button" data-remove-day="${opts.saved.dia}" class="rm">Quitar</button></div>`;
-    else acts = `<div class="acts"><button type="button" data-copy="${esc(t)}">Copiar</button>${approved ? `<span class="approved">✓ Aprobado · Día ${approved.dia}</span>` : `<button type="button" class="approve" data-approve="${esc(t)}">Aprobar como Día ${nextDay(current)}</button>`}</div>`;
+    else acts = `<div class="acts"><button type="button" data-copy="${esc(t)}">Copiar</button>${approved ? `<span class="approved">✓ Aprobado · Día ${approved.dia}</span>` : `<button type="button" class="approve" data-approve="${esc(t)}" data-partes="${esc(opts.partes || "")}">Aprobar como Día ${nextDay(current)}</button>`}</div>`;
     return `<div class="prompter">
       <div class="tc"><span class="dot"></span>${opts.saved ? `Día ${opts.saved.dia} · ` : ""}≈ ${fmtSec(s)} · ${w} palabras${over && !opts.saved ? ` <span class="warn">· pasa de ${target} s</span>` : ""}${opts.saved && opts.saved.fecha ? " · " + esc(opts.saved.fecha) : ""}</div>
       <div class="lines">${lines.map(l => `<p>${esc(l)}</p>`).join("")}</div>
+      ${opts.saved && opts.saved.partes ? `<div class="tc">${esc(opts.saved.partes)}</div>` : ""}
       ${acts}
     </div>`;
   }
 
   function renderAssistant(content, live) {
+    const pm = content.match(/^\s*\**Partes:?\**:?\s*(.+)$/mi);
+    const partes = pm ? pm[1].replace(/\*+/g, "").trim() : "";
     const parts = [];
     const re = /\[GUION\]([\s\S]*?)(?:\[\/GUION\]|$)/g;
     let last = 0, m;
@@ -491,7 +522,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     return parts.map(p => {
       if (p.t === "txt") { const v = p.v.trim(); return v ? `<div class="txt">${formatText(v)}</div>` : ""; }
       const lines = p.v.split("\n").map(l => l.trim()).filter(Boolean);
-      return lines.length ? scriptCard(lines, { live }) : "";
+      return lines.length ? scriptCard(lines, { live, partes }) : "";
     }).join("");
   }
 
@@ -599,6 +630,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
                 <div class="kv"><span>Qué contamos</span><textarea id="b-que-${i}" data-bf="que" rows="2">${esc(b.que)}</textarea></div>
                 <div class="kv"><span>Función</span><textarea id="b-fun-${i}" data-bf="funcion" rows="1">${esc(b.funcion)}</textarea></div>
                 <div class="kv"><span>Ejemplo</span><textarea id="b-ej-${i}" data-bf="ejemplo" rows="2" class="ej">${esc(b.ejemplo)}</textarea></div>
+                <div class="kv"><span>Pregunta guía</span><textarea id="b-preg-${i}" data-bf="pregunta" rows="1">${esc(b.pregunta || "")}</textarea></div>
                 <select id="b-modo-${i}" data-bf="modo" aria-label="Cuándo usarla">${opts(b.modo)}</select>
               </div>
               <div class="tools">
@@ -615,6 +647,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
               <div class="field"><label for="nb-modo">Cuándo usarla</label><select id="nb-modo">${opts("auto")}</select></div>
               <div class="field wide"><label for="nb-que">¿Qué contamos?</label><input id="nb-que" placeholder="Ej.: un número del nicho que sorprenda"></div>
               <div class="field wide"><label for="nb-fun">¿Cuál es su función?</label><input id="nb-fun" placeholder="Ej.: frenar el scroll y dar autoridad"></div>
+              <div class="field wide"><label for="nb-preg">Pregunta guía (para sacarle material a la alumna)</label><input id="nb-preg" placeholder="Ej.: ¿Qué dato de tu nicho te sorprendió esta semana?"></div>
               <div class="field wide"><label for="nb-ej">Ejemplo</label><textarea id="nb-ej" placeholder="Ej.: El 90% de las cuentas nuevas abandona antes del día 30."></textarea></div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="submit">Agregar al menú</button><button class="btn ghost" type="button" id="reset-blocks">Restaurar estructura original</button></div>
@@ -757,7 +790,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     e.preventDefault();
     const nombre = $("#nb-nombre").value.trim();
     if (!nombre) return;
-    current.estructura.ideas.push({ id: uid(), nombre, que: $("#nb-que").value.trim(), funcion: $("#nb-fun").value.trim(), ejemplo: $("#nb-ej").value.trim(), modo: $("#nb-modo").value });
+    current.estructura.ideas.push({ id: uid(), nombre, que: $("#nb-que").value.trim(), funcion: $("#nb-fun").value.trim(), ejemplo: $("#nb-ej").value.trim(), pregunta: $("#nb-preg").value.trim(), modo: $("#nb-modo").value });
     persist(current); render(); flash(`Idea "${nombre}" agregada al menú.`);
   });
   main.addEventListener("click", e => {
@@ -767,7 +800,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     else if (t.dataset.copy != null) copy(t.dataset.copy, t);
     else if (t.dataset.approve != null) {
       const dia = nextDay(current);
-      current.guiones.push({ dia, texto: t.dataset.approve, fecha: new Date().toLocaleDateString("es") });
+      current.guiones.push({ dia, texto: t.dataset.approve, partes: t.dataset.partes || "", fecha: new Date().toLocaleDateString("es") });
       persist(current); render(); flash(`Guardado como Día ${dia}.`);
     }
     else if (t.dataset.removeDay != null) {
@@ -846,7 +879,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     document.querySelector('nav.tabs [data-tab="guiones"]').firstChild.textContent = "Mis guiones";
   }
   retos = loadLocal().sort((a, b) => (b.actualizado || 0) - (a.actualizado || 0));
-  for (const r of retos) { if (!r.estructura || !Array.isArray(r.estructura.ideas)) r.estructura = clone(DEFAULT_ESTRUCTURA); delete r.bloques; r.guiones ||= []; r.mensajes ||= [{ role: "assistant", content: GREETING }]; r.perfil = Object.assign(newReto().perfil, r.perfil || {}); }
+  retos.forEach(normalize);
   if (!retos.length) retos.push(newReto());
   current = retos[0];
   render();
