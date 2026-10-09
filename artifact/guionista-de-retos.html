@@ -256,6 +256,7 @@ main { min-height: 0; }
   let store = { mode: "local", db: null, uid: null };
   const writeChains = {};
   let armed = null; // botón en confirmación
+  let diag = "";
 
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -303,8 +304,8 @@ main { min-height: 0; }
   }
 
   async function initClaude() {
-    if (!window.claude || typeof window.claude.use !== "function") { sampleState = "none"; renderComposerState(); return; }
-    window.claude.use("sample").then(s => { sampleFn = s; sampleState = s ? "ok" : "none"; renderComposerState(); }).catch(() => { sampleState = "none"; renderComposerState(); });
+    if (!window.claude || typeof window.claude.use !== "function") { diag = "sin-visor"; sampleState = "none"; renderComposerState(); return; }
+    window.claude.use("sample").then(s => { sampleFn = s; diag = s ? "" : "sample-null"; sampleState = s ? "ok" : "none"; renderComposerState(); }).catch(() => { diag = "sample-error"; sampleState = "none"; renderComposerState(); });
     try {
       const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
       const id = user ? await user.id() : null;
@@ -517,7 +518,8 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
       banner.hidden = false;
       banner.innerHTML = `<strong>El chat no funciona en esta app.</strong> Algunas apps de Claude (por ejemplo, la de Android) todavía no permiten chatear dentro de esta página. Ábrela en el navegador del celular (Chrome o Safari) o en la computadora, con tu cuenta de Claude:
         <div class="banner-acts"><a class="btn primary" href="${PAGE_URL}" target="_blank" rel="noopener">Abrir en el navegador</a><button class="btn" type="button" id="copy-link">Copiar link</button></div>
-        <div class="hint" style="margin-top:6px">${esc(PAGE_URL)}</div>`;
+        <div class="hint" style="margin-top:6px">${esc(PAGE_URL)}</div>
+        <div class="hint">Detalle técnico: ${esc(diag || "-")} · ${esc(/Android/i.test(navigator.userAgent) ? "Android" : /iPhone|iPad/i.test(navigator.userAgent) ? "iOS" : "escritorio")}${window.top === window ? " · fuera del visor" : " · en visor"}</div>`;
     }
     else if (sampleState === "denied") { banner.hidden = false; banner.textContent = "Esta página no tiene permiso para usar Claude. Ábrelo desde el menú Permisos del artifact y vuelve a cargar."; }
     else if (sampleState === "pending") { banner.hidden = false; banner.textContent = "Conectando con Claude…"; }
