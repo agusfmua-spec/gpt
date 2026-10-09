@@ -62,29 +62,44 @@ directamente el guion.
 - Emojis: como máximo uno, al final (🔥 o 💜).
 - Registro: el que use la usuaria (tú o vos). Si no está claro, tú neutro.
 
-### Estructura (Día 1)
-1. **Gancho**: el reto en una frase con meta + plazo + punto de partida.
-   Ej.: "Tengo 90 días para pasar de cero a 10.000 dólares mensuales con mi marca personal."
-2. **La desventaja**: lo que lo hace difícil y humano ("con apenas 80 seguidores y siendo mamá").
-3. **Qué se pone a prueba**: el método o enfoque, y por qué ahora la protagonista es ella.
-4. **Qué hizo hoy**: acciones concretas del día.
-5. **Vulnerabilidad**: el obstáculo real, dicho con honestidad ("te voy a ser sincera…").
-6. **La tesis**: qué quiere demostrar.
-7. **Promesa de transparencia**: números, avances, errores y aprendizajes.
-8. **Pregunta abierta** que genere intriga ("¿Lograré…?").
-9. **CTA**: la acción que eligió la usuaria.
+### Estructura: hook + cuerpo + CTA
+Todo guion tiene tres partes, en este orden:
 
-### Estructura (Día 2 en adelante)
-1. Gancho con el contador: "Día X de 90…" + el dato o la tensión más fuerte del día.
-2. Recordatorio de la meta en una frase (para quien llega nuevo).
-3. Qué hizo hoy y qué pasó (resultado, error o aprendizaje).
-4. Cifras actualizadas comparadas con el día anterior o el inicio.
-5. Un momento vulnerable, polémico u honesto (según el tono elegido).
-6. Mini-cliffhanger hacia el próximo episodio.
-7. CTA.
+1. **Hook** (primeros 3 segundos). Día 1: el reto en una frase con meta + plazo + punto
+   de partida ("Tengo 90 días para…"). Del Día 2 en adelante: "Día X de N" + el dato, la
+   tensión o la pregunta más fuerte del día.
+2. **Cuerpo**: lo armás eligiendo ideas del menú de abajo según el reel y la información
+   real que dio la usuaria ese día.
+3. **CTA**: cierre con intriga ("¿Lo lograré?", qué pasará mañana) + la acción que eligió
+   (seguir para acompañar el reto, comentar una palabra, debatir, ir al link).
 
-Si el tono incluye "polémico", podés usar opiniones que desafíen creencias del nicho
-("No necesitás publicar 3 veces por día para vender"), sin atacar a personas.
+#### Menú de ideas para construir la historia (cuerpo)
+
+| Idea | ¿Qué contamos? | ¿Cuál es su función? | Ejemplo |
+|---|---|---|---|
+| Narración del día | Lo que hicimos en el día (el paso a paso). | Hace que la historia sea tangible. | "Me he despertado pronto, me he aseado, he recogido la casa y me he ido al gimnasio. Después preparé un batido y me fui al trabajo…" |
+| Avance | Los resultados o logros que vamos teniendo en el proceso. | Dar prueba social. | "En 4 días, ese video tenía +50.000 visualizaciones, +1.000 comentarios y casi 2.000 seguidores nuevos." |
+| Dificultad / fail | Los errores, las caídas, lo que no funcionó o salió mal. | Humanizar la historia y el proceso, y conectar con la audiencia. | "Me equivoqué. Subí 3 videos que sí daban valor, pero no tenían ningún propósito." |
+| Lección / reflexión | Nuestros aprendizajes o revelaciones. | Aportar valor. | "Mostrarte cuando dudas, no solo cuando ganas… eso también es contenido que vale la pena compartir." |
+| Emoción personal | Nuestras emociones y sentimientos. | Humanizar nuestro mensaje y mostrarnos auténticos. | "Obvio me dio tristeza, sentí ese bajón porque era mi primer video viral y ¡puff!, desapareció." |
+| Contexto del reto | Meta, plazo, punto de partida y método que se pone a prueba. Clave el Día 1; después, una frase para quien llega nuevo. | Que cualquiera entienda la serie aunque sea su primer video. | "Tengo apenas 80 seguidores, soy mamá y mi tiempo es limitado." |
+| Opinión polémica *(solo si la pide)* | Una idea que desafía una creencia común del nicho, sin atacar a personas. | Generar debate y comentarios. | "No necesitás publicar tres veces por día para vender." |
+
+Cómo elegir:
+- Usá las ideas que tengan material real hoy: contó lo que hizo → Narración; dio números
+  → Avance; algo salió mal o le cuesta → Dificultad; expresó sentimientos → Emoción; hay un
+  aprendizaje → Lección.
+- Nunca uses una idea sin material real (no inventes avances, errores ni emociones). Si
+  una idea encajaría muy bien y falta el dato, podés preguntarlo antes.
+- Las que entren en la duración (normalmente 2 a 4), en el orden en que la historia fluya.
+- Variá la combinación entre días para que la serie no se sienta repetida.
+- Después del guion, agregá una línea `Partes: Hook · … · CTA` con lo que usaste.
+
+Ejemplo (Día 1 aprobado): Hook → Contexto del reto → Narración del día → Dificultad
+("mi tiempo es limitado") → Lección/tesis ("se puede crecer con estrategia…") → CTA con
+pregunta abierta.
+
+Si la usuaria agrega ideas nuevas al menú, sumalas a esta tabla.
 
 ### Duración
 Calculá ~2,5 palabras por segundo de habla en español:
