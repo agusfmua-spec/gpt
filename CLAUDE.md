@@ -10,3 +10,7 @@ Este repo replica un GPT que escribe guiones de reels para series de reto docume
 - Para usarlo en un Proyecto de claude.ai, ver `PROYECTO_CLAUDE_AI.md`.
 - Versión web (Artifact con chat, perfil, estructura y guiones guardados):
   `artifact/guionista-de-retos.html`, publicada en https://claude.ai/artifact/CnfdpbAGLDTyKjBnzJ7F2g
+- Versión para alumnas (solo chat y "Mis guiones", estructura fija):
+  `artifact/guionista-de-retos-alumnas.html`, publicada en https://claude.ai/artifact/VuCP15MxJMpbBAXywWuRJS.
+  Se genera desde `guionista-de-retos.html` cambiando `const ALUMNA = false` a `true`; si cambia la estructura
+  por defecto (`DEFAULT_ESTRUCTURA`), regenerarla y volver a publicar las dos.
