@@ -14,3 +14,4 @@ Este repo replica un GPT que escribe guiones de reels para series de reto docume
   `artifact/guionista-de-retos-alumnas.html`, publicada en https://claude.ai/artifact/VuCP15MxJMpbBAXywWuRJS.
   Se genera desde `guionista-de-retos.html` cambiando `const ALUMNA = false` a `true`; si cambia la estructura
   por defecto (`DEFAULT_ESTRUCTURA`), regenerarla y volver a publicar las dos.
+  La versión de alumnas pide el código de acceso (se compara su SHA-256 en `ACCESS_HASH`).
