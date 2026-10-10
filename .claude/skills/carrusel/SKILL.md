@@ -1,6 +1,6 @@
 ---
 name: carrusel
-description: Arma carruseles de Instagram (copy + diseño) con las fotos, formato, tipografías y colores de la marca, y los exporta a PNG listos para subir (opcionalmente a Canva para editar). Usar cuando pidan un carrusel, slides para Instagram, un post de varias imágenes, cambiar el diseño o la marca de los carruseles, o subir fotos para un carrusel.
+description: Analiza carruseles de ejemplo para replicar su secuencia y arma carruseles de Instagram (copy + diseño) con las fotos, formato, tipografías y colores de la marca, y los exporta a PNG listos para subir (opcionalmente a Canva para editar). Usar cuando pidan un carrusel, slides para Instagram, un post de varias imágenes, cambiar el diseño o la marca de los carruseles, o subir fotos para un carrusel.
 ---
 
 # Diseñadora de carruseles
@@ -16,6 +16,8 @@ Este skill es independiente del reto ("Día X de 90"): no leas ni modifiques `re
 - `carruseles/marca.md` → perfil de marca fijo (formato, tipografías, colores, estilo, @usuario, lead magnet).
 - `carruseles/fotos/` → banco de fotos. La usuaria puede subir muchas de una vez; si las adjunta
   en el chat, copialas acá con un nombre corto y descriptivo (`retrato-sonriendo.jpg`, `laptop-cafe.jpg`).
+- `carruseles/referencias/` → carruseles de ejemplo analizados: una carpeta por referencia
+  (`01-nombre/`) con las capturas (`slide-01.png`, …) y `secuencia.md` (el molde que se replica).
 - `carruseles/fuentes/` → archivos de fuentes propios (.ttf, .otf, .woff2), si no usa Google Fonts.
 - `carruseles/NN-slug/` → un carrusel por carpeta (`01-errores-marca-personal`):
   `carrusel.md` (copy aprobado), `slides.html` (diseño) y `png/slide-NN.png` (export).
@@ -24,6 +26,38 @@ Este skill es independiente del reto ("Día X de 90"): no leas ni modifiques `re
 
 Antes de responder, leé `carruseles/marca.md` y mirá los últimos carruseles para no repetir
 temas, hooks ni estructuras.
+
+## Paso 0 — Analizar un carrusel de ejemplo (cuando lo pase)
+
+Si la usuaria pasa un carrusel de referencia (capturas de cada slide, suyo o de otra cuenta),
+analizalo **antes** de cualquier otra cosa, aunque todavía no haya marca ni brief.
+
+1. Guardá las capturas en orden en `carruseles/referencias/NN-nombre/slide-01.png`, … y miralas todas (Read).
+   Si faltan slides o no queda claro el orden, preguntá.
+2. Devolvé el análisis de la secuencia en una tabla:
+
+   | # | Función en la secuencia | Fórmula del texto | Palabras aprox. | Layout / visual |
+   |---|------------------------|-------------------|-----------------|-----------------|
+   | 1 | Hook: nombra un error   | "[N] errores que [frenan / arruinan] tu [deseo]" | 7 | foto a sangre, título grande abajo |
+   | 2 | Validación / por qué importa | … | … | … |
+
+   y debajo:
+   - **Arco**: cómo avanza (problema → errores → solución → resumen → CTA, historia → giro → lección…),
+     y qué hace que se deslice a la siguiente (numeración, preguntas abiertas, "pero…", cliffhangers).
+   - **Hook**: qué promesa hace y por qué frena el scroll.
+   - **Ritmo y densidad**: cantidad de slides, palabras por slide, cuándo alterna foto y texto.
+   - **Diseño**: jerarquía tipográfica, tipo de fuente (serif, sans, script), colores, uso de fotos, recursos
+     (números grandes, resaltados, flechas, stickers, capturas).
+   - **Cierre y lead magnet**: cómo pide la acción y qué ofrece.
+   - **Qué conviene copiar y qué mejorar** para su marca y su objetivo.
+3. Preguntá si el análisis es correcto y qué quiere tomar: la secuencia, el diseño o ambos.
+4. Guardá el molde en `carruseles/referencias/NN-nombre/secuencia.md` (tabla con fórmulas genéricas
+   por slide, arco, ritmo, notas de diseño). Si es de su propia cuenta y quiere ese diseño como el suyo,
+   usalo para completar o actualizar `marca.md` (Paso 1) y solo preguntá lo que falte.
+
+Al armar un carrusel con esa referencia, seguí el molde slide por slide (misma función, fórmula y densidad)
+pero con su tema, sus palabras y su marca. Nunca copies textos ni diseños literales de cuentas ajenas:
+se replica la estructura, no el contenido.
 
 ## Paso 1 — Marca (solo si `carruseles/marca.md` no existe o tiene pendientes)
 
@@ -35,7 +69,7 @@ Saludá y hacé estas preguntas juntas, numeradas (aclarando que se definen una 
    Si no sabe, proponé 3 combinaciones según su estilo.
 3. **Colores**: 2 a 4 colores en hex (fondo, texto, acento). Si no los tiene, ofrecé sacarlos de sus fotos.
 4. **Estilo**: minimal, editorial/elegante, bold/llamativo, cálido/orgánico, con foto a sangre o mixto.
-   Si tiene un carrusel de referencia (suyo o de otra cuenta), que lo suba.
+   Si tiene un carrusel de referencia (suyo o de otra cuenta), que lo suba y analizalo (Paso 0).
 5. **Firma**: @usuario o nombre que va en cada slide.
 6. **Nicho, público y tono**: de qué habla, a quién le habla, cómo suena; tú, vos o usted.
 7. **Lead magnet por defecto**: nombre, qué incluye y palabra para comentar (ej.: "GUÍA").
@@ -62,7 +96,9 @@ Si después cambia algo de la marca, actualizá `marca.md`. Cuando apruebe o rec
 
 ## Paso 2 — Brief del carrusel (preguntas que cambian)
 
-Hacé de 3 a 5 preguntas cortas y numeradas; no preguntes lo que ya dijo. Elegí entre:
+Hacé de 3 a 5 preguntas cortas y numeradas; no preguntes lo que ya dijo. Si hay referencias
+guardadas en `carruseles/referencias/`, preguntá si quiere usar alguna como molde (o pasar una nueva);
+con molde, la cantidad de slides y el tipo salen de ahí. Elegí entre:
 
 1. **Tema**: ¿de qué trata? (si no sabe, proponé 3 ideas según su nicho y lo que no publicó todavía).
 2. **Objetivo**: ¿guardados (educar), compartidos (viral), seguidores, conexión (historia personal) o venta / leads?
@@ -79,7 +115,7 @@ Si ya trae todo, saltá directo al Paso 3.
 
 ## Paso 3 — Copy primero (sin diseñar todavía)
 
-Entregá el carrusel en una tabla:
+Entregá el carrusel en una tabla (con molde, la columna Rol repite la función de esa slide en la referencia):
 
 | # | Rol | Layout | Título | Texto | Foto |
 |---|-----|--------|--------|-------|------|
