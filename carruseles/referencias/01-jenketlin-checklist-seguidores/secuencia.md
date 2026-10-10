@@ -2,6 +2,7 @@
 
 - **Fuente**: carrusel de @jenketlin (cuenta ajena), 28/09. Se replica la estructura, nunca los textos.
 - **Tipo**: checklist accionable · **Objetivo**: guardados + seguidores · **Slides**: 7
+- **Qué se toma**: solo la secuencia (función y fórmula de cada slide, arco y ritmo). El diseño sale de `marca.md`.
 - **Caption**: corto, solo CTA + frase de marca ("Sigue a @cuenta | [frase de identidad]").
 
 | # | Función en la secuencia | Fórmula del texto | Palabras | Layout / visual |
