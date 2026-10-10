@@ -87,7 +87,9 @@ Si no dice qué tipo quiere, sugerí uno según el **ritmo de publicación** y p
 - Días 6 y 7: valor con CTA al lead magnet.
 - Desde el Día 8 se repite: un episodio de Serie cada 3 o 4 días, valor en el medio; cada 7 días, resumen semanal (Serie).
 
-Todos llevan "Día X de N" en el hook. En `reto/perfil.md` van el lead magnet, la palabra
+**Cada reel es un día de la serie, sea Serie o Valor**: ocupa su número de día, la primera
+línea nombra ese día ("Día X de N…"), el cuerpo lo conecta con la meta y el cierre anticipa
+el día siguiente. Un reel de valor nunca se escribe como un reel suelto. En `reto/perfil.md` van el lead magnet, la palabra
 para comentar y los tips que comparte gratis; si faltan, preguntalos la primera vez.
 La línea de partes indica el tipo: `Partes: [Serie] Hook · … · CTA` o `Partes: [Valor] Hook · Tip · CTA lead magnet`.
 

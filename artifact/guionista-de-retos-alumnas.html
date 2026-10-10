@@ -221,9 +221,9 @@ main { min-height: 0; }
       { id: "polemica", nombre: "Opinión polémica", que: "Una idea que desafía una creencia común del nicho, sin atacar a personas.", funcion: "Generar debate y comentarios.", ejemplo: "No necesitas publicar tres veces por día para vender.", pregunta: "¿Qué creencia de tu nicho te gustaría desafiar?", modo: "off" }
     ],
     ritmo: "Día 1: lanzamiento del reto (Serie).\nDías 2 y 3: reels de valor (un tip accionable y uno de mentalidad que estoy usando en el reto).\nDía 4: \"cómo vengo\" (Serie, con números reales).\nDía 5: reel de valor con toque polémico.\nDías 6 y 7: reels de valor con CTA al lead magnet.\nDesde el Día 8 se repite el ciclo: un episodio de la Serie cada 3 o 4 días y reels de valor en el medio. Cada 7 días, resumen de la semana (Serie).",
-    valorHook: "\"Día X de N\" + una promesa clara de lo que va a aprender o un error común que va a evitar. Tiene que servirle a alguien que nunca vio el reto.",
-    valorCuerpo: "Un solo tip, accionable o de mentalidad, que ella está aplicando en el reto. Explícalo en pasos simples o con un ejemplo concreto, y conéctalo con el reto con una frase del estilo \"esto es lo que estoy aplicando en mi reto\". Si es útil, una mini prueba real de que le funciona (sin inventar).",
-    valorCta: "Si hay lead magnet: \"Comenta [PALABRA] y te envío [lead magnet]\". Si no hay, invitar a seguir el reto. Cierra recordando que mañana sigue la serie."
+    valorHook: "Arranca SIEMPRE ubicando el día del reto (\"Día X de N de mi reto de…\") + una promesa clara de lo que va a aprender o un error común que va a evitar. Tiene que servirle a alguien que nunca vio el reto, pero dejando claro que es un episodio de la serie.",
+    valorCuerpo: "Un solo tip, accionable o de mentalidad, que ella está aplicando en ESTE día del reto. Explícalo en pasos simples o con un ejemplo concreto, y conéctalo con su meta con una frase del estilo \"esto es lo que estoy aplicando para llegar a [meta]\". Si es útil, una mini prueba real de que le funciona (sin inventar).",
+    valorCta: "Si hay lead magnet: \"Comenta [PALABRA] y te envío [lead magnet]\". Si no hay, invitar a seguir el reto. Cierra siempre con la continuidad de la serie: \"mañana, Día X+1\" o qué viene después."
   };
 
   const PERFIL_FIELDS = [
@@ -291,9 +291,10 @@ main { min-height: 0; }
       guiones: []
     };
   }
+  const OLD_DEFAULTS = ["\"Día X de N\" + una promesa clara de lo que va a aprender o un error común que va a evitar. Tiene que servirle a alguien que nunca vio el reto.", "Un solo tip, accionable o de mentalidad, que ella está aplicando en el reto. Explícalo en pasos simples o con un ejemplo concreto, y conéctalo con el reto con una frase del estilo \"esto es lo que estoy aplicando en mi reto\". Si es útil, una mini prueba real de que le funciona (sin inventar).", "Si hay lead magnet: \"Comenta [PALABRA] y te envío [lead magnet]\". Si no hay, invitar a seguir el reto. Cierra recordando que mañana sigue la serie."];
   function normalize(r) {
     if (!r.estructura || !Array.isArray(r.estructura.ideas)) r.estructura = clone(DEFAULT_ESTRUCTURA);
-    for (const k of ["ritmo", "valorHook", "valorCuerpo", "valorCta"]) if (r.estructura[k] == null) r.estructura[k] = DEFAULT_ESTRUCTURA[k];
+    for (const k of ["ritmo", "valorHook", "valorCuerpo", "valorCta"]) if (r.estructura[k] == null || OLD_DEFAULTS.includes(r.estructura[k])) r.estructura[k] = DEFAULT_ESTRUCTURA[k];
     for (const b of r.estructura.ideas) if (b.pregunta == null) b.pregunta = (DEFAULT_ESTRUCTURA.ideas.find(d => d.id === b.id) || {}).pregunta || "";
     delete r.bloques;
     r.guiones ||= [];
@@ -430,7 +431,7 @@ Hay dos tipos de guion. Antes de escribir, define cuál toca:
 - VALOR (reel hablado de su nicho): un tip accionable o de mentalidad, conectado al reto y, cuando corresponda, con CTA a su lead magnet. Usa la ESTRUCTURA DEL REEL DE VALOR.
 Si la usuaria no dice qué tipo quiere, en el check-in sugiere uno según el RITMO DE PUBLICACIÓN y el número de día ("Según tu ritmo, hoy toca…"), y pregúntale si quiere ese u otro. Si ya lo dijo, no lo preguntes.
 Las preguntas del check-in dependen del tipo: para SERIE, las del menú de ideas; para VALOR, qué tip o tema quiere enseñar hoy (o sugiere uno de sus temas), un ejemplo o prueba real de que le funciona, y si lleva CTA al lead magnet.
-Todos los reels, de los dos tipos, llevan "Día X de N" en el hook para sostener la serie.
+CADA REEL ES UN DÍA DE LA SERIE, sea SERIE o VALOR: ocupa el número de día que le toca (Día ${dia}${p.duracion ? " de " + p.duracion : ""}), la PRIMERA línea del guion nombra ese día ("Día X de N…"), el cuerpo lo conecta con su meta y su reto, y el cierre anticipa el día siguiente. Un reel de valor nunca se escribe como un reel suelto.
 
 RITMO DE PUBLICACIÓN (sugerencia de qué tipo toca cada día; la usuaria puede cambiarlo cuando quiera)
 ${est.ritmo}
