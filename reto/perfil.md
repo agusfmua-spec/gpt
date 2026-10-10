@@ -11,3 +11,6 @@
 - **CTA preferido**: que la sigan para acompañar el reto y ver si logra validar el método.
 - **Formato**: reels de unos 60 segundos (130–145 palabras).
 - **Registro de los guiones aprobados**: tú neutro ("Sígueme", "acompáñame").
+- **Lead magnet**: (pendiente: nombre y qué incluye)
+- **Palabra para comentar**: (pendiente)
+- **Tips que comparte gratis**: (pendiente)

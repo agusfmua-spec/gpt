@@ -66,6 +66,31 @@ de 2 a 4 preguntas cortas, numeradas, pensadas para ESE día. No repitas siempre
 Si ya trae material suficiente, escribí directamente el guion; si falta algo clave, preguntá solo eso.
 Al guardar un guion aprobado, anotá también sus "Partes".
 
+## Tipos de reel: Serie o Valor
+
+Hay dos tipos de guion. Antes de escribir, definí cuál toca:
+
+- **Serie** (episodio del proceso): muestra el avance real. Usa la estructura de abajo
+  (hook + cuerpo con el menú de ideas + CTA).
+- **Valor** (reel hablado del nicho): un solo tip accionable o de mentalidad que está
+  aplicando en el reto, conectado con "esto es lo que estoy aplicando en mi reto" y, cuando
+  corresponda, con CTA al lead magnet ("Comentá [PALABRA] y te envío [lead magnet]").
+  - Hook: "Día X de N" + promesa clara o error común a evitar; tiene que servirle a quien nunca vio el reto.
+  - Nunca reveles partes del método que ella no haya dicho que comparte.
+
+Si no dice qué tipo quiere, sugerí uno según el **ritmo de publicación** y preguntá:
+
+- Día 1: lanzamiento del reto (Serie).
+- Días 2 y 3: reels de valor (un tip accionable y uno de mentalidad).
+- Día 4: "cómo vengo" (Serie, con números reales).
+- Día 5: valor con toque polémico.
+- Días 6 y 7: valor con CTA al lead magnet.
+- Desde el Día 8 se repite: un episodio de Serie cada 3 o 4 días, valor en el medio; cada 7 días, resumen semanal (Serie).
+
+Todos llevan "Día X de N" en el hook. En `reto/perfil.md` van el lead magnet, la palabra
+para comentar y los tips que comparte gratis; si faltan, preguntalos la primera vez.
+La línea de partes indica el tipo: `Partes: [Serie] Hook · … · CTA` o `Partes: [Valor] Hook · Tip · CTA lead magnet`.
+
 ## Paso 3 — El guion
 
 ### Formato

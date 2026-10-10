@@ -147,6 +147,7 @@ main { min-height: 0; }
 .kv textarea.ej { font-style: italic; }
 @media (max-width: 520px) { .kv { grid-template-columns: 1fr; gap: 0; } }
 .sr { position: absolute; left: -9999px; }
+.type-head { font-family: var(--font-display); font-size: 1.05rem; margin: 14px 0 0; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
 .gate { position: fixed; inset: 0; z-index: 20; background: var(--bg); display: grid; place-items: center; padding: 16px; }
 .gate-card { width: min(100%, 380px); display: flex; flex-direction: column; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
 .gate-card h1 { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; margin: 0; text-wrap: balance; }
@@ -218,7 +219,11 @@ main { min-height: 0; }
       { id: "emocion", nombre: "Emoción personal", que: "Nuestras emociones y sentimientos.", funcion: "Humanizar nuestro mensaje y mostrarnos auténticos.", ejemplo: "Obvio me dio tristeza, sentí ese bajón porque era mi primer video viral y ¡puff!, desapareció.", pregunta: "¿Cómo te sentiste hoy con el reto?", modo: "auto" },
       { id: "contexto", nombre: "Contexto del reto", que: "La meta, el plazo, el punto de partida y el método que se pone a prueba. Clave el Día 1; después, en una frase para quien llega nuevo.", funcion: "Que cualquiera entienda la serie aunque sea su primer video.", ejemplo: "Tengo apenas 80 seguidores, soy mamá y mi tiempo es limitado. Y voy a poner a prueba mi propio método.", pregunta: "¿Cambió algo de tu meta, tu plan o tu punto de partida?", modo: "auto" },
       { id: "polemica", nombre: "Opinión polémica", que: "Una idea que desafía una creencia común del nicho, sin atacar a personas.", funcion: "Generar debate y comentarios.", ejemplo: "No necesitas publicar tres veces por día para vender.", pregunta: "¿Qué creencia de tu nicho te gustaría desafiar?", modo: "off" }
-    ]
+    ],
+    ritmo: "Día 1: lanzamiento del reto (Serie).\nDías 2 y 3: reels de valor (un tip accionable y uno de mentalidad que estoy usando en el reto).\nDía 4: \"cómo vengo\" (Serie, con números reales).\nDía 5: reel de valor con toque polémico.\nDías 6 y 7: reels de valor con CTA al lead magnet.\nDesde el Día 8 se repite el ciclo: un episodio de la Serie cada 3 o 4 días y reels de valor en el medio. Cada 7 días, resumen de la semana (Serie).",
+    valorHook: "\"Día X de N\" + una promesa clara de lo que va a aprender o un error común que va a evitar. Tiene que servirle a alguien que nunca vio el reto.",
+    valorCuerpo: "Un solo tip, accionable o de mentalidad, que ella está aplicando en el reto. Explícalo en pasos simples o con un ejemplo concreto, y conéctalo con el reto con una frase del estilo \"esto es lo que estoy aplicando en mi reto\". Si es útil, una mini prueba real de que le funciona (sin inventar).",
+    valorCta: "Si hay lead magnet: \"Comenta [PALABRA] y te envío [lead magnet]\". Si no hay, invitar a seguir el reto. Cierra recordando que mañana sigue la serie."
   };
 
   const PERFIL_FIELDS = [
@@ -230,9 +235,17 @@ main { min-height: 0; }
     ["partida", "Punto de partida (cifras)", "input", "Ej.: 80 seguidores, 0 ventas"],
     ["metodo", "Método o enfoque que pones a prueba", "input", "Ej.: Método Fénix"],
     ["cta", "Llamado a la acción preferido", "input", "Ej.: que me sigan para acompañar el reto"],
+    ["leadMagnet", "Lead magnet (nombre y qué incluye)", "input", "Ej.: Guía gratis 'Tus primeros 1.000 USD'"],
+    ["palabraClave", "Palabra para comentar", "input", "Ej.: FÉNIX"],
+    ["temasValor", "Tips o temas que compartes gratis", "input", "Ej.: constancia con poco tiempo, oferta irresistible"],
   ];
-  const PERFIL_KEYS = ["nombre", "nicho", "meta", "duracion", "tono", "obstaculo", "partida", "metodo", "cta", "registro", "segundos"];
+  const PERFIL_KEYS = ["nombre", "nicho", "meta", "duracion", "tono", "obstaculo", "partida", "metodo", "cta", "leadMagnet", "palabraClave", "temasValor", "registro", "segundos"];
 
+  const TYPE_CHIPS = [
+    ["Episodio de la serie", "Quiero el guion de hoy como episodio de la serie, mostrando el proceso."],
+    ["Reel de valor + lead magnet", "Quiero el guion de hoy como reel de valor de mi nicho, conectado al reto y con CTA a mi lead magnet."],
+    ["¿Qué toca hoy?", "Según mi ritmo de publicación, ¿qué tipo de reel toca hoy? Pregúntame lo que necesites para escribirlo."]
+  ];
   const CHIPS = [
     ["Más corto", "Hazlo más corto, que entre cómodo en el tiempo objetivo."],
     ["Gancho más fuerte", "Dame 3 opciones de gancho más fuertes y el guion completo con la mejor."],
@@ -269,10 +282,10 @@ main { min-height: 0; }
   const words = t => (t.trim().match(/\S+/g) || []).length;
   const fmtSec = s => { s = Math.round(s); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); };
 
-  function newReto() {
+  function newReto() { // perfil incluye leadMagnet, palabraClave y temasValor
     return {
       id: uid(), nombre: "Reto nuevo", creado: Date.now(), actualizado: Date.now(),
-      perfil: { nicho: "", meta: "", duracion: "", tono: "", obstaculo: "", partida: "", metodo: "", cta: "", registro: "tú", segundos: 60, notas: "" },
+      perfil: { leadMagnet: "", palabraClave: "", temasValor: "", nicho: "", meta: "", duracion: "", tono: "", obstaculo: "", partida: "", metodo: "", cta: "", registro: "tú", segundos: 60, notas: "" },
       estructura: clone(DEFAULT_ESTRUCTURA),
       mensajes: [{ role: "assistant", content: GREETING }],
       guiones: []
@@ -280,6 +293,7 @@ main { min-height: 0; }
   }
   function normalize(r) {
     if (!r.estructura || !Array.isArray(r.estructura.ideas)) r.estructura = clone(DEFAULT_ESTRUCTURA);
+    for (const k of ["ritmo", "valorHook", "valorCuerpo", "valorCta"]) if (r.estructura[k] == null) r.estructura[k] = DEFAULT_ESTRUCTURA[k];
     for (const b of r.estructura.ideas) if (b.pregunta == null) b.pregunta = (DEFAULT_ESTRUCTURA.ideas.find(d => d.id === b.id) || {}).pregunta || "";
     delete r.bloques;
     r.guiones ||= [];
@@ -410,8 +424,26 @@ FORMATO DEL GUION
 - Duración objetivo: ${seg} segundos ≈ ${pal} palabras (se hablan unas 2,5 palabras por segundo). Si pregunta si entra en X segundos, cuenta las palabras, dile honestamente cuánto dura y ofrece la versión ajustada conservando gancho, momento honesto y llamado a la acción.
 - Extras que pida (texto en pantalla, caption, hashtags, tomas o B-roll) van FUERA del bloque [GUION].
 
-ESTRUCTURA DEL GUION: HOOK + CUERPO + CTA
-Todo guion tiene tres partes, en este orden:
+TIPOS DE REEL
+Hay dos tipos de guion. Antes de escribir, define cuál toca:
+- SERIE (episodio del proceso): muestra el avance real del reto. Usa la ESTRUCTURA DEL EPISODIO DE LA SERIE.
+- VALOR (reel hablado de su nicho): un tip accionable o de mentalidad, conectado al reto y, cuando corresponda, con CTA a su lead magnet. Usa la ESTRUCTURA DEL REEL DE VALOR.
+Si la usuaria no dice qué tipo quiere, en el check-in sugiere uno según el RITMO DE PUBLICACIÓN y el número de día ("Según tu ritmo, hoy toca…"), y pregúntale si quiere ese u otro. Si ya lo dijo, no lo preguntes.
+Las preguntas del check-in dependen del tipo: para SERIE, las del menú de ideas; para VALOR, qué tip o tema quiere enseñar hoy (o sugiere uno de sus temas), un ejemplo o prueba real de que le funciona, y si lleva CTA al lead magnet.
+Todos los reels, de los dos tipos, llevan "Día X de N" en el hook para sostener la serie.
+
+RITMO DE PUBLICACIÓN (sugerencia de qué tipo toca cada día; la usuaria puede cambiarlo cuando quiera)
+${est.ritmo}
+
+ESTRUCTURA DEL REEL DE VALOR: HOOK + CUERPO + CTA
+1. HOOK: ${est.valorHook}
+2. CUERPO: ${est.valorCuerpo}
+3. CTA: ${est.valorCta}
+Datos para el CTA: lead magnet = ${p.leadMagnet || "(sin dato: pregúntalo la primera vez que toque un CTA de lead magnet)"}; palabra para comentar = ${p.palabraClave || "(sin dato: pregúntala)"}.
+Temas o tips que comparte gratis: ${p.temasValor || "(sin dato: pregúntale qué tips quiere compartir y cuáles no quiere revelar de su método)"}. Nunca reveles partes de su método que ella no haya dicho que comparte.
+
+ESTRUCTURA DEL EPISODIO DE LA SERIE: HOOK + CUERPO + CTA
+Todo episodio de la serie tiene tres partes, en este orden:
 1. HOOK: ${est.hook}
 2. CUERPO: lo armas TÚ eligiendo ideas del menú de abajo según el reel y la información real que dio la usuaria. Reglas:
    - Elige las ideas que tengan material real hoy. Ejemplos: contó lo que hizo → Narración del día; dio números o logros → Avance; algo salió mal o le cuesta → Dificultad / fail; expresó sentimientos → Emoción personal; hay un aprendizaje → Lección / reflexión.
@@ -423,7 +455,7 @@ Todo guion tiene tres partes, en este orden:
 ${menu.map(ideaTxt).join("\n")}
 ${fuera.length ? "   Ideas desactivadas (úsalas solo si la usuaria las pide explícitamente): " + fuera.map(b => b.nombre).join(", ") : ""}
 3. CTA: ${est.cta}
-Justo después de [/GUION], escribe una línea que empiece con "Partes:" y nombre en orden lo que usaste, por ejemplo: Partes: Hook · Contexto del reto · Narración del día · Dificultad / fail · CTA.
+Justo después de [/GUION], escribe una línea que empiece con "Partes:", luego el tipo entre corchetes y en orden lo que usaste. Ejemplos: "Partes: [Serie] Hook · Contexto del reto · Narración del día · Dificultad / fail · CTA" o "Partes: [Valor] Hook · Tip de mentalidad · CTA lead magnet".
 
 PERFIL DEL RETO (memoria)
 ${perfilTxt}
@@ -537,6 +569,7 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
       <div class="composer">
         <div class="banner" id="sample-banner" hidden></div>
         ${showChips ? `<div class="chips">${CHIPS.map(([l, p]) => `<button type="button" data-chip="${esc(p)}">${esc(l)}</button>`).join("")}</div>` : ""}
+        ${!streaming && !showChips && (current.guiones.length || current.perfil.meta) ? `<div class="chips"><span class="hint" style="align-self:center">Hoy quiero:</span>${TYPE_CHIPS.map(([l, p]) => `<button type="button" data-chip="${esc(p)}">${esc(l)}</button>`).join("")}</div>` : ""}
         <div class="row">
           <label for="box" class="hint" style="position:absolute;left:-9999px">Mensaje</label>
           <textarea id="box" rows="2" placeholder="Escribe tu respuesta o pide el guion de hoy…"></textarea>
@@ -620,6 +653,8 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
     main.innerHTML = `<section class="panel">
       <div class="section-head"><h2>Estructura del guion</h2><p>Todo video tiene hook, cuerpo y CTA. Para el cuerpo, Claude elige del menú las ideas que encajan con lo que pasó ese día.</p></div>
       <div class="frame">
+        <div class="part"><div class="part-tag">Ritmo de publicación <span class="hint">qué tipo de reel toca cada día</span></div><label for="e-ritmo" class="sr">Ritmo de publicación</label><textarea id="e-ritmo" data-est="ritmo" rows="6">${esc(est.ritmo)}</textarea></div>
+        <h3 class="type-head">Episodio de la serie <span class="hint">mostrar el proceso</span></h3>
         <div class="part"><div class="part-tag">1 · Hook</div><label for="e-hook" class="sr">Indicaciones del hook</label><textarea id="e-hook" data-est="hook" rows="3">${esc(est.hook)}</textarea></div>
         <div class="part body-part"><div class="part-tag">2 · Cuerpo <span class="hint">menú de ideas</span></div>
           <div class="blocks">${est.ideas.map((b, i) => `
@@ -654,6 +689,11 @@ solo con los campos nuevos o cambiados (JSON válido). Campos válidos: ${PERFIL
           </form>
         </div>
         <div class="part"><div class="part-tag">3 · CTA</div><label for="e-cta" class="sr">Indicaciones del CTA</label><textarea id="e-cta" data-est="cta" rows="2">${esc(est.cta)}</textarea></div>
+        <h3 class="type-head">Reel de valor <span class="hint">tip de tu nicho + lead magnet</span></h3>
+        <div class="part"><div class="part-tag">1 · Hook</div><label for="e-vhook" class="sr">Hook del reel de valor</label><textarea id="e-vhook" data-est="valorHook" rows="2">${esc(est.valorHook)}</textarea></div>
+        <div class="part"><div class="part-tag">2 · Cuerpo</div><label for="e-vcuerpo" class="sr">Cuerpo del reel de valor</label><textarea id="e-vcuerpo" data-est="valorCuerpo" rows="3">${esc(est.valorCuerpo)}</textarea></div>
+        <div class="part"><div class="part-tag">3 · CTA</div><label for="e-vcta" class="sr">CTA del reel de valor</label><textarea id="e-vcta" data-est="valorCta" rows="2">${esc(est.valorCta)}</textarea></div>
+        <p class="hint">El lead magnet, la palabra para comentar y los tips que compartes se cargan en Perfil del reto.</p>
       </div>
     </section>`;
   }
